@@ -87,7 +87,7 @@ clear
 printf "curl not found in your PATH var."
 exit
 }
-prog="$(command -v wget)" || nocurl
+prog="$(command -v curl)" || nocurl
 # python looks more charming every time
 #wgetargs="-c -P "${downloadfolder}""
 
