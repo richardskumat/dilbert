@@ -1,0 +1,18 @@
+---
+language: python
+
+env:
+  matrix:
+    - DIR: acer
+    - DIR: hpg8
+    - DIR: client
+
+install:
+  - pip install ansible-lint
+  - ansible-lint --version
+  - ansible --version
+
+script:
+  # Run tests.
+  - cd "${DIR}"
+  - for file in *.yml;do ansible-lint "${file}";done

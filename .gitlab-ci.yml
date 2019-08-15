@@ -1,0 +1,29 @@
+---
+image: alpine
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+
+services:
+  - docker:dind
+
+stages:
+  - shellcheck
+  - test
+
+shellcheck:
+  stage: shellcheck
+  image: qwe1/shellcheck
+  script:
+    - shellcheck -Cauto -s bash dilbert.sh
+
+test_download:
+  stage: test
+  image: python:3.7-buster
+  script:
+    # reqs
+    - bash -x debian_pkg_req
+    - bash -x dilbert.sh -t
