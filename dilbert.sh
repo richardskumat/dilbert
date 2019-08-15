@@ -8,7 +8,7 @@
 # also doesn't take time zone differences into account
 
 # since it's for personal I use, I just assume I have enough brain
-# to run it at late UK night when the author in US already upload
+# to run it at late UK night when the author in US already uploaded
 # the day's comic
 
 
@@ -27,13 +27,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #DIR="$(pwd -P)"
 #DIR="$(pwd)"
 
-# needs the download link for simplicity to
-# be piped to wget
-# then we can use gifslice to convert the gifs to usable gifs
-# ${prog} http://dilbert.com/strip/2016-09-19 | grep 'img-responsive img-comic' | awk -F'"' '{print $10}'
-
-#url="http://dilbert.com/strip/"
-#ref="http://dilbert.com"
 #2018-11-26
 # update to https
 url="https://dilbert.com/strip/"
@@ -82,7 +75,7 @@ clear
 printf "Wget not found in your PATH var."
 exit
 }
-wget="$(command -v wget)" || nowget
+command -v wget > /dev/null 2>&1 || nowget
 
 nocurl()
 {
@@ -90,7 +83,7 @@ clear
 printf "curl not found in your PATH var."
 exit
 }
-prog="$(command -v curl)" || nocurl
+command -v curl > /dev/null 2>&1 || nocurl
 # python looks more charming every time
 #wgetargs="-c -P "${downloadfolder}""
 
@@ -100,7 +93,7 @@ clear
 printf "file not found in your PATH var."
 exit
 }
-command -v file || nofile
+command -v file > /dev/null 2>&1 || nofile
 
 download()
 {
@@ -111,7 +104,7 @@ fi
 
 # 2018-11-26
 # added last sed since the site changes from http to https
-imglink="$(${prog} -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
+imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
 
 # the awk part separates the last part of the URL
 # resulting in the random string of the image on assets.amuniversal.com
@@ -205,7 +198,7 @@ imglink="http://www.acc.umu.se/~zqad/webcom3/dilbert/2011/111203.gif"
 filename="$(echo "${imglink}" | awk -F'/' '{print $NF}')"
 fi
 
-"${wget}" -U "${ua}" -c -P "${downloadfolder}" "${imglink}"
+wget -U "${ua}" -c -P "${downloadfolder}" "${imglink}"
 
 # 2018-11-26
 # idiot, you never tested if the image existed in the first place
