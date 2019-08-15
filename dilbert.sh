@@ -91,6 +91,14 @@ prog="$(command -v curl)" || nocurl
 # python looks more charming every time
 #wgetargs="-c -P "${downloadfolder}""
 
+nofile()
+{
+clear
+printf "file not found in your PATH var."
+exit
+}
+whichfile="$(command -v file)" || nofile
+
 download()
 {
 # if download() is not called from main, but from today()
