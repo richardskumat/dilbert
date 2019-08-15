@@ -97,7 +97,7 @@ clear
 printf "file not found in your PATH var."
 exit
 }
-whichfile="$(command -v file)" || nofile
+command -v file || nofile
 
 download()
 {
