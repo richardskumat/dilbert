@@ -41,7 +41,7 @@ This will likely break if dilbert.com site layout changes.
 
 Once dilbert.sh has downloaded all images from the site, the script can be run daily to download the latest images.
 
-Example cron job, every night at 2 AM:
+Example cron job, every night at 2300:
 
 ```
 #Ansible: dilbert scraping
