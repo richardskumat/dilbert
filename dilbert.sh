@@ -2,6 +2,9 @@
 # 2019-02-07
 # doesn't work reliably
 
+# testing this in docker
+# docker run --rm -ti -v $PWD:/tmp/1 qwe1/shellcheck shellcheck -e SC2144 -s bash /tmp/1/dilbert.sh
+
 # also doesn't take time zone differences into account
 
 # since it's for personal I use, I just assume I have enough brain
