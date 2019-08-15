@@ -11,5 +11,5 @@ addons:
     update:  true
 
 script:
-  - shellcheck -s bash dilbert.sh
+  - shellcheck -e SC2144 -s  bash dilbert.sh
   - bash -x dilbert.sh -t

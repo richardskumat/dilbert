@@ -76,16 +76,18 @@ fi
 nowget()
 {
 clear
-printf "Wget not found in your PATH var.\nPlease install wget via apt-get install wget -y\nor yum install wget -y\n." && exit
+printf "Wget not found in your PATH var."
+exit
 }
-wget="$(which wget)" || nowget
+wget="$(command -v wget)" || nowget
 
 nocurl()
 {
 clear
-printf "curl not found in your PATH var.\nPlease install curl via apt-get install curl -y\nor yum install curl -y\n." && exit
+printf "curl not found in your PATH var."
+exit
 }
-prog="$(which curl)" || nocurl
+prog="$(command -v wget)" || nocurl
 # python looks more charming every time
 #wgetargs="-c -P "${downloadfolder}""
 
@@ -238,7 +240,6 @@ if [ ! -e "${downloadfolder}/${var}".* ];then
 # call the download function
 download
 
-
 fi
 done < "${datelist}"
 }
@@ -250,7 +251,7 @@ today()
 
 	# exit if today's comic is already download
 	if [ -e "${downloadfolder}/${todayis}".* ];then
-	printf "Today\'s comic has already been downloaded.\nExiting.\n"
+	printf "Today\\'s comic has already been downloaded.\\nExiting.\\n"
 	exit
 	fi
 

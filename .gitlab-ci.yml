@@ -18,7 +18,7 @@ shellcheck:
   stage: shellcheck
   image: qwe1/shellcheck
   script:
-    - shellcheck -Cauto -s bash dilbert.sh
+    - shellcheck -e SC2144 -Cauto -s bash dilbert.sh
 
 test_download:
   stage: test
