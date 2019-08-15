@@ -1,18 +1,15 @@
 ---
 language: python
 
-env:
-  matrix:
-    - DIR: acer
-    - DIR: hpg8
-    - DIR: client
+dist: xenial
 
 install:
-  - pip install ansible-lint
-  - ansible-lint --version
-  - ansible --version
+  - sudo apt-get install wget curl file shellcheck -y
+
+addons:
+  apt:
+    update:  true
 
 script:
-  # Run tests.
-  - cd "${DIR}"
-  - for file in *.yml;do ansible-lint "${file}";done
+  - shellcheck -s bash dilbert.sh
+  - bash -x dilbert.sh -t
