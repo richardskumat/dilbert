@@ -1,5 +1,5 @@
 ---
-image: alpine
+#image: alpine
 
 variables:
   DOCKER_HOST: tcp://docker:2375/
@@ -7,8 +7,8 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 
-services:
-  - docker:dind
+#services:
+#  - docker:dind
 
 stages:
   - shellcheck
