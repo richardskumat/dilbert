@@ -22,7 +22,7 @@ shellcheck:
 
 test_download:
   stage: test
-  image: python:3.7-buster
+  image: python:3.7-slim-buster
   script:
     # reqs
     - bash -x debian_pkg_req
