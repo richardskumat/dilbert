@@ -1,15 +1,4 @@
 ---
-#image: alpine
-
-variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
-
-
-#services:
-#  - docker:dind
-
 stages:
   - shellcheck
   - test
@@ -22,7 +11,7 @@ shellcheck:
 
 test_download:
   stage: test
-  image: python:3.7-slim-buster
+  image: debian:buster-slim
   script:
     # reqs
     - bash -x debian_pkg_req
