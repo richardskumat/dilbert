@@ -52,21 +52,11 @@ datelist="/tmp/date.list"
 "${py3}" "${pyscript}" > "${datelist}"
 
 
-downloadfolder="$HOME/Downloads/dilbert"
-downloadparent="$HOME/Downloads"
-
-# Pictures folder
-# actual place to save the images
-picturesfolder="$HOME/Pictures/dilbert"
-
-if [ ! -d "${picturesfolder}" ];then
-	mkdir -p "${picturesfolder}"
-fi
+downloadfolder="$HOME/Pictures/dilbert"
 
 # if downloadfolder doesn't exist, make it
 if [ ! -d "${downloadfolder}" ];then
-	mkdir -p "${downloadparent}"
-	ln -s "${picturesfolder}" "${downloadfolder}"
+	mkdir -p "${downloadfolder}"
 fi
 
 nowget()
@@ -187,10 +177,10 @@ echo "Usage of $0:"
 echo "By default, $0 expects ${dg} to be in the same directory."
 echo "'${dg}' creates a list of dates that $0 can use."
 echo ''
-echo "You should specify the following arguements for $0 in the first arguement: "
-echo "eg: bash -x $0 --first-arguement"
+echo "You should specify the following arguments for $0 in the first argument: "
+echo "eg: bash -x $0 --first-argument"
 echo ''
-echo 'To download all images or continue an interrupted job, use these flags for first arguement:'
+echo 'To download all images or continue an interrupted job, use these flags for first argument:'
 echo '-all|--all|-a|--a|-download|--download|-d|--d|-long|--long|-l|--l'
 echo ''
 echo "To only download today's comic, use these flags in first arg:"
