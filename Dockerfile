@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 RUN apt-get update && \
-    apt-get install file wget curl python3-minimal ca-certificates --no-install-recommends -y && \
+    apt-get install file curl python3-minimal ca-certificates --no-install-recommends -y && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* && \
     apt-get clean
 COPY dilbert.sh /dilbert
