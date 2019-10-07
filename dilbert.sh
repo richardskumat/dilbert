@@ -56,7 +56,7 @@ download()
 {
 # if download() is not called from main, but from today()
 if [ -z "${var}" ];then
-var="$(tail -n 1 ${datelist})"
+var="$(tail -n 1 "${datelist}")"
 fi
 
 # 2018-11-26
@@ -125,7 +125,7 @@ rm_date_list
 today()
 {
 	# today's formatted date
-	todayis="$(tail -n 1 ${datelist})"
+	todayis="$(tail -n 1 "${datelist}")"
 
 	# exit if today's comic is already download
 	if [ -e "${downloadfolder}/${todayis}".* ];then
