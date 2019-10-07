@@ -1,25 +1,4 @@
 #!/bin/bash
-# 2019-02-07
-# doesn't work reliably
-
-# testing this in docker
-# docker run --rm -ti -v $PWD:/tmp/1 qwe1/shellcheck shellcheck -e SC2144 -s bash /tmp/1/dilbert.sh
-
-# also doesn't take time zone differences into account
-
-# since it's for personal I use, I just assume I have enough brain
-# to run it at late UK night when the author in US already uploaded
-# the day's comic
-
-
-# could be dockerized, rewritten in python or whatever
-# dockerization would bring a whole host of problems, such as:
-# where to save, uid differences
-
-# enough
-
-# wanted to write this in python,
-# but ended up in bash
 
 # directory the script is launched from
 # bashism
@@ -32,15 +11,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 url="https://dilbert.com/strip/"
 ref="https://dilbert.com"
 
-# 2018-11-26
-# update UA to ff 60
-ua='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0'
-# if you can make use of this var, go ahead
-# I couldn't
-#args="-L -A ${ua} --referer ${ref}"
+ua='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:69.0) Gecko/20100101 Firefox/69.0'
 
 # dates
-py3="python3"
+# fall back to python
+# on android termux python package is actually python3
+py3="$(command -v python3 || command -v python || echo 'no python found in path, exiting.' && exit)"
 pyscript="${DIR}/date-generator.py"
 
 # trying to get /bin/sh to work
@@ -48,7 +24,7 @@ if [ ! -e "${pyscript}" ];then
 echo "Var pyscript/date-generator.py not found, exiting."
 exit
 fi
-datelist="/tmp/date.list"
+datelist="${DIR}/date.list"
 "${py3}" "${pyscript}" > "${datelist}"
 
 
@@ -59,13 +35,6 @@ if [ ! -d "${downloadfolder}" ];then
 	mkdir -p "${downloadfolder}"
 fi
 
-nowget()
-{
-clear
-printf "Wget not found in your PATH var."
-exit
-}
-command -v wget > /dev/null 2>&1 || nowget
 
 nocurl()
 {
@@ -74,8 +43,6 @@ printf "curl not found in your PATH var."
 exit
 }
 command -v curl > /dev/null 2>&1 || nocurl
-# python looks more charming every time
-#wgetargs="-c -P "${downloadfolder}""
 
 nofile()
 {
@@ -100,7 +67,7 @@ imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-
 # resulting in the random string of the image on assets.amuniversal.com
 filename="$(echo "${imglink}" | awk -F'/' '{print $NF}')"
 
-wget -U "${ua}" -c -P "${downloadfolder}" "${imglink}"
+curl -A "${ua}" -o "${downloadfolder}/${filename}" "${imglink}"
 
 # 2018-11-26
 # idiot, you never tested if the image existed in the first place
@@ -138,6 +105,7 @@ sleep 6;
 
 main()
 {
+
 # loop
 while read -r var; do
 # this if wrapper should skip existing images
@@ -148,6 +116,10 @@ download
 
 fi
 done < "${datelist}"
+
+# clean up the temporary date file
+rm_date_list
+
 }
 
 today()
@@ -166,6 +138,17 @@ today()
 	if [ ! -e "${downloadfolder}/${todayis}".* ];then
 	download
 	fi
+
+	# clean up the temporary date file
+	rm_date_list
+}
+
+rm_date_list()
+{
+	if [ -e "${datelist}" ];then
+	# clean up the temporary date file
+	rm -f "${datelist}"
+	fi
 }
 
 help()
@@ -181,21 +164,21 @@ echo "You should specify the following arguments for $0 in the first argument: "
 echo "eg: bash -x $0 --first-argument"
 echo ''
 echo 'To download all images or continue an interrupted job, use these flags for first argument:'
-echo '-all|--all|-a|--a|-download|--download|-d|--d|-long|--long|-l|--l'
+echo '-a'
 echo ''
 echo "To only download today's comic, use these flags in first arg:"
-echo "-today|--today|-todays|--todays|-t"
+echo "-t"
 echo ''
 echo 'For everything else, this useless help() function gets printed to the cli.'
 }
 
 case "$1" in
 	# if first arg matches these flags, then run main() to download all
-	-all|--all|-a|--a|-download|--download|-d|--d|-long|--long|-l|--l)
+	-a)
 		main
 		;;
 	# for these flags, only download today's comic
-	-today|--today|-todays|--todays|-t)
+	-t)
 		today
 		;;
 	# for everything else, throw up our hands and behave like a child
