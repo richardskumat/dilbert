@@ -32,7 +32,7 @@ This code fortunately generates a list of dates in the format dilbert.com uses, 
 
 ### dilbert.sh
 
-This uses an awful mess of piping to download images from dilbert.com and convert them to yyyy-mm-dd format and save them in $HOME/Downloads/dilbert by default.
+This uses an awful mess of piping to download images from dilbert.com and convert them to yyyy-mm-dd format and save them in $HOME/Pictures/dilbert by default.
 
 
 This will likely break if dilbert.com site layout changes.
