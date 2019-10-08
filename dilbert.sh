@@ -16,7 +16,7 @@ ua='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:69.0) Gecko/20100101 Firefox/69.0'
 # dates
 # fall back to python
 # on android termux python package is actually python3
-py3="$(command -v python3 || command -v python || echo 'no python found in path, exiting.' && exit)"
+py3="$(command -v python3 || command -v python || exit)"
 pyscript="${DIR}/date-generator.py"
 
 # trying to get /bin/sh to work
