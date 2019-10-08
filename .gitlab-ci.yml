@@ -19,7 +19,7 @@ test_download_debian:
 
 test_download_ubuntu:
   stage: test
-  image: ubuntu:1804
+  image: ubuntu:18.04
   script:
     # reqs
     - bash -x debian_pkg_req
