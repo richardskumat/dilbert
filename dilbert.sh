@@ -67,7 +67,7 @@ imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-
 # resulting in the random string of the image on assets.amuniversal.com
 filename="$(echo "${imglink}" | awk -F'/' '{print $NF}')"
 
-curl -A "${ua}" -o "${downloadfolder}/${filename}" "${imglink}"
+curl -sS -A "${ua}" -o "${downloadfolder}/${filename}" "${imglink}"
 
 # 2018-11-26
 # idiot, you never tested if the image existed in the first place
