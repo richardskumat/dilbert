@@ -9,8 +9,6 @@ Caveat:
 
 Seems the container takes a very long time to catch to itself if it has already some comics.
 
-Early testing shows it's already slow if only a couple dozen images are downloaded, trying to make it faster atm.
-
 Here's a sample command to download all comics:
 
 ```
@@ -34,7 +32,9 @@ docker kill dilbert
 
 Use the --rm flag to remove the container once it's killed/stopped.
 
-Use the -v flag for permanent storage of the downloaded comics.
+Use the -v flag to mount/bind a volume/directory for the downloaded comics.
+
+The -a flag instructs the dilbert.sh inside the container to download all comics.
 
 ## Usage to download today's comic
 
@@ -42,8 +42,10 @@ Caveat:
 
 Due to date-generator not taking time zone differences into account, this might not always download the day's image.
 
-Here's a sample command to download all comics:
+Here's a sample command to download today's comic:
 
 ```
 docker run -d --name dilbert --rm -v $HOME/Pictures/dilbert:/home/user/Pictures/dilbert qwe1/dilbert:latest -t
 ```
+
+The -t flag instructs the dilbert.sh inside the container to download today's comic.
