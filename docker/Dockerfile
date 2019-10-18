@@ -6,7 +6,7 @@ RUN apt-get update && \
 RUN useradd -m -s /bin/bash user
 COPY dilbert.sh /home/user/dilbert
 COPY date-generator.py /home/user/date-generator.py
-COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 0700 /docker-entrypoint.sh \
     /home/user/date-generator.py \
     /home/user/dilbert

@@ -4,7 +4,7 @@ language: python
 dist: xenial
 
 install:
-  - sudo apt-get install curl file shellcheck -y
+  - sudo apt-get install curl file ca-certificates shellcheck python3-minimal --no-install-recommends -y
 
 addons:
   apt:

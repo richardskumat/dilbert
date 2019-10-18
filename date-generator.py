@@ -16,6 +16,6 @@ a = int(datetime.datetime.strftime(datetime.datetime.now(), '%Y'))
 b = int(datetime.datetime.strftime(datetime.datetime.now(), '%m'))
 c = int(datetime.datetime.strftime(datetime.datetime.now(), '%d')) + 1
 
-    
+
 for result in perdelta(datetime.date(1989,4,16), datetime.date(a, b, c), datetime.timedelta(days=1)):
     print(result)

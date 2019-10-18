@@ -2,6 +2,8 @@
 stages:
   - shellcheck
   - test
+  - docker-build
+  - docker-push
 
 shellcheck:
   stage: shellcheck
@@ -14,7 +16,7 @@ test_download_debian:
   image: debian:buster-slim
   script:
     # reqs
-    - bash -x debian_pkg_req
+    - bash -x docker/debian_pkg_req
     - bash -x dilbert.sh -t
 
 test_download_ubuntu:
@@ -22,7 +24,7 @@ test_download_ubuntu:
   image: ubuntu:18.04
   script:
     # reqs
-    - bash -x debian_pkg_req
+    - bash -x docker/debian_pkg_req
     - bash -x dilbert.sh -t
 
 test_download_fedora:
@@ -30,7 +32,7 @@ test_download_fedora:
   image: fedora:latest
   script:
     # reqs
-    - bash -x redhat_pkg_req
+    - bash -x docker/redhat_pkg_req
     - bash -x dilbert.sh -t
 
 test_download_c7:
@@ -38,7 +40,7 @@ test_download_c7:
   image: centos:7
   script:
     # reqs
-    - bash -x redhat_pkg_req
+    - bash -x docker/redhat_pkg_req
     - bash -x dilbert.sh -t
 
 test_download_c8:
@@ -46,5 +48,37 @@ test_download_c8:
   image: centos:8
   script:
     # reqs
-    - bash -x redhat_pkg_req
+    - bash -x docker/redhat_pkg_req
     - bash -x dilbert.sh -t
+
+
+docker-build:
+  stage: docker-build
+  image: docker:stable
+  script:
+    # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+    - docker build -f docker/Dockerfile -t $CI_COMMIT_SHORT_SHA:$CI_COMMIT_SHA .
+    - docker images
+
+push_to_dockerhub:
+ stage: docker-push
+ only:
+   - master
+ script:
+   - cd docker
+   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
+   - docker build -f docker/Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA .
+   - docker images
+   - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest
+   - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA
+
+push_to_gitlab_reg:
+  stage: docker-push
+  only:
+   - master
+  script:
+    - cd docker
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - docker build -f docker/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:latest -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:latest
+    - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_SHA
