@@ -5,6 +5,13 @@ stages:
   - docker-build
   - docker-push
 
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  # https://gitlab.com/gitlab-org/gitlab-ce/issues/64959
+  # 19.03 had some breaking changes compared to 18.09
+  DOCKER_TLS_CERTDIR: ""
+
 shellcheck:
   stage: shellcheck
   image: qwe1/shellcheck
@@ -55,6 +62,8 @@ test_download_c8:
 docker-build:
   stage: docker-build
   image: docker:stable
+  services:
+    - docker:dind
   script:
     # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
     - docker build -f docker/Dockerfile -t $CI_COMMIT_SHORT_SHA:$CI_COMMIT_SHA .
@@ -62,6 +71,9 @@ docker-build:
 
 push_to_dockerhub:
  stage: docker-push
+ image: docker:stable
+ services:
+   - docker:dind
  only:
    - master
  script:
@@ -74,6 +86,9 @@ push_to_dockerhub:
 
 push_to_gitlab_reg:
   stage: docker-push
+  image: docker:stable
+  services:
+    - docker:dind
   only:
    - master
   script:
