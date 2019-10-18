@@ -26,39 +26,6 @@ test_download_debian:
     - bash -x docker/debian_pkg_req
     - bash -x dilbert.sh -t
 
-test_download_ubuntu:
-  stage: test
-  image: ubuntu:18.04
-  script:
-    # reqs
-    - bash -x docker/debian_pkg_req
-    - bash -x dilbert.sh -t
-
-test_download_fedora:
-  stage: test
-  image: fedora:latest
-  script:
-    # reqs
-    - bash -x docker/redhat_pkg_req
-    - bash -x dilbert.sh -t
-
-test_download_c7:
-  stage: test
-  image: centos:7
-  script:
-    # reqs
-    - bash -x docker/redhat_pkg_req
-    - bash -x dilbert.sh -t
-
-test_download_c8:
-  stage: test
-  image: centos:8
-  script:
-    # reqs
-    - bash -x docker/redhat_pkg_req
-    - bash -x dilbert.sh -t
-
-
 docker-build:
   stage: docker-build
   image: docker:stable
