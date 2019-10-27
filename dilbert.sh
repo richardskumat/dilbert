@@ -173,11 +173,11 @@ echo 'For everything else, this useless help() function gets printed to the cli.
 }
 
 case "$1" in
-	# if first arg matches these flags, then run main() to download all
+	# if first arg matches is -a, then run main() to download all
 	-a)
 		main
 		;;
-	# for these flags, only download today's comic
+	# for -t, only download today's comic
 	-t)
 		today
 		;;
