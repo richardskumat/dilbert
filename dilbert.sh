@@ -13,21 +13,6 @@ ref="https://dilbert.com"
 
 ua='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:69.0) Gecko/20100101 Firefox/69.0'
 
-# dates
-# fall back to python
-# on android termux python package is actually python3
-py3="$(command -v python3 || command -v python || exit)"
-pyscript="${DIR}/date-generator.py"
-
-# trying to get /bin/sh to work
-if [ ! -e "${pyscript}" ];then
-echo "Var pyscript/date-generator.py not found, exiting."
-exit
-fi
-datelist="${DIR}/date.list"
-"${py3}" "${pyscript}" > "${datelist}"
-
-
 downloadfolder="$HOME/Pictures/dilbert"
 
 # if downloadfolder doesn't exist, make it
@@ -56,11 +41,9 @@ download()
 {
 # if download() is not called from main, but from today()
 if [ -z "${var}" ];then
-var="$(tail -n 1 "${datelist}")"
+var="$(date +"%Y-%m-%d")"
 fi
 
-# 2018-11-26
-# added last sed since the site changes from http to https
 imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
 
 # the awk part separates the last part of the URL
@@ -69,10 +52,6 @@ filename="$(echo "${imglink}" | awk -F'/' '{print $NF}')"
 
 curl -sS -A "${ua}" -o "${downloadfolder}/${filename}" "${imglink}"
 
-# 2018-11-26
-# idiot, you never tested if the image existed in the first place
-# so when dilbert.com changed to https, your non-existing downloads
-# still got mv-d
 if [ ! -e "${downloadfolder}"/"${filename}" ];then
 
 echo "The downloaded image doesn't exist."
@@ -89,7 +68,6 @@ case "${imgtype}" in
 	;;
 
 	*"GIF image data"*) #gif
-	#"${gifsicle}" -d 10 "${downloadfolder}"/"${filename}" > "${downloadfolder}"/"${var}".gif
 	mv "${downloadfolder}"/"${filename}" "${downloadfolder}"/"${var}".gif
 	;;
 
@@ -106,6 +84,28 @@ sleep 6;
 main()
 {
 
+# dates
+# fall back to python
+# on android termux python package is actually python3
+py3="$(command -v python3 || command -v python || exit)"
+pyscript="${DIR}/date-generator.py"
+
+# trying to get /bin/sh to work
+if [ ! -e "${pyscript}" ];then
+echo "Var pyscript/date-generator.py not found, exiting."
+exit
+fi
+datelist="${DIR}/date.list"
+"${py3}" "${pyscript}" > "${datelist}"
+
+if test $? -gt 0;then
+echo "
+There was an error with ${pyscript}.
+Please see the output of $0.
+"
+exit
+fi
+
 # loop
 while read -r var; do
 # this if wrapper should skip existing images
@@ -117,6 +117,7 @@ download
 fi
 done < "${datelist}"
 
+
 # clean up the temporary date file
 rm_date_list
 
@@ -125,7 +126,7 @@ rm_date_list
 today()
 {
 	# today's formatted date
-	todayis="$(tail -n 1 "${datelist}")"
+	todayis="$(date +"%Y-%m-%d")"
 
 	# exit if today's comic is already download
 	if [ -e "${downloadfolder}/${todayis}".* ];then
