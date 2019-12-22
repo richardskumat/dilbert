@@ -44,7 +44,20 @@ if [ -z "${var}" ];then
 var="$(date +"%Y-%m-%d")"
 fi
 
-imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}""${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
+imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
+
+#imglink="$(curl -sS -L -A "${ua}" --referer ${ref} https://gog.com | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
+
+if [ -z "${imglink}" ];then
+echo "
+imglink variable is empty, which means
+this scipt had an issue parsing dilbert.com.
+
+Exiting.
+"
+exit
+fi
+
 
 # the awk part separates the last part of the URL
 # resulting in the random string of the image on assets.amuniversal.com
@@ -52,32 +65,47 @@ filename="$(echo "${imglink}" | awk -F'/' '{print $NF}')"
 
 curl -sS -A "${ua}" -o "${downloadfolder}/${filename}" "${imglink}"
 
-if [ ! -e "${downloadfolder}"/"${filename}" ];then
+if [ ! -e "${downloadfolder}/${filename}" ];then
 
 echo "The downloaded image doesn't exist."
 
 fi
 
-
-imgtype="$(file "${downloadfolder}"/"${filename}")"
+# this is idiotic, I'm relying on file output for $imgtype to be stable for years
+imgtype="$(file "${downloadfolder}/${filename}")"
 
 case "${imgtype}" in
 
+
 	*"JPEG image data"*) #jpg
-	mv "${downloadfolder}"/"${filename}" "${downloadfolder}"/"${var}".jpg
+	mv "${downloadfolder}/${filename}" "${downloadfolder}/${var}".jpg
 	;;
 
 	*"GIF image data"*) #gif
-	mv "${downloadfolder}"/"${filename}" "${downloadfolder}"/"${var}".gif
+	mv "${downloadfolder}/${filename}" "${downloadfolder}/${var}".gif
 	;;
 
 	*"PNG image data"*) #png
-	mv "${downloadfolder}"/"${filename}" "${downloadfolder}"/"${var}".png
+	mv "${downloadfolder}/${filename}" "${downloadfolder}/${var}".png
 	;;
 
 esac
 
-rm -f "${downloadfolder}"/"${filename}"
+if [ -d "${downloadfolder}/${filename}" ];then
+echo
+"The temporary downloaded file from assets.universal.com
+does not exist.
+
+Exiting.
+"
+exit
+fi
+
+if [ -e "${downloadfolder}/${filename}" ];then
+# don't use -r to prevent recursive force deletion
+rm -f "${downloadfolder}/${filename}"
+fi
+
 sleep 6;
 }
 
