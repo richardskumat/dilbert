@@ -36,6 +36,30 @@ Use the -v flag to mount/bind a volume/directory for the downloaded comics.
 
 The -a flag instructs the dilbert.sh inside the container to download all comics.
 
+However, it seems using -a makes the docker run command uninterruptable,
+so the ct in that case has to be killed.
+
+## PUID/GUID
+
+The ct can read env vars PUID and GUID to change the uid
+and gid the download script runs under, which is nice for
+if your user id differs from the default 1000/1000 of
+Debian.
+
+Example command:
+
+```bash
+docker run --name dilbert -e PUID=6969 -e GUID=6969 qwe1/dilbert -t
+```
+
+```bash
+dwight@schrute:/tmp/dilbert# ls /var/lib/docker/volumes/6c714938b5221808990f28b056cf57067e13d7ec2788e52bdfc7ad1808e7277f/_data/ -lah
+total 120K
+drwxr-xr-x 2 6969 6969 4.0K May 18 14:52 .
+drwxr-xr-x 3 root root 4.0K May 18 14:52 ..
+-rw-r--r-- 1 6969 6969 112K May 18 14:52 2020-05-18.gif
+```
+
 ## Usage to download today's comic
 
 Caveat:
