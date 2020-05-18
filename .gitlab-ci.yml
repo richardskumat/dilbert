@@ -6,15 +6,12 @@ stages:
   - docker-push
 
 variables:
-  DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
-  # https://gitlab.com/gitlab-org/gitlab-ce/issues/64959
-  # 19.03 had some breaking changes compared to 18.09
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: "/certs"
 
 shellcheck:
   stage: shellcheck
-  image: qwe1/shellcheck
+  image: qwe1/shellcheck:sid
   script:
     - shellcheck -e SC2144 -Cauto -s bash dilbert.sh
 
