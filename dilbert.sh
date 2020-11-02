@@ -11,7 +11,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 url="https://dilbert.com/strip/"
 ref="https://dilbert.com"
 
-ua='Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+ua='Mozilla/5.0 (Windows NT 10.0; WOW64; rv:78.0) Gecko/20100101 Firefox/78.0'
 
 downloadfolder="$HOME/Pictures/dilbert"
 
@@ -44,9 +44,10 @@ if [ -z "${var}" ];then
 var="$(date +"%Y-%m-%d")"
 fi
 
-imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
-
-#imglink="$(curl -sS -L -A "${ua}" --referer ${ref} https://gog.com | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | sed 's/^/https:/g')"
+# previous curl command resulted in the actual image URL from the external host
+# and some promotion material that confused the rest of this script
+# I'll have to do better than review the results of this line every once in a while
+imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | grep -v 'packs\|images\|promotion')"
 
 if [ -z "${imglink}" ];then
 echo "
