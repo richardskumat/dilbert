@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# fail the script if it errors out
+set -eu -o pipefail
 # directory the script is launched from
 # bashism
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
