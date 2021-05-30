@@ -157,6 +157,7 @@ today()
 {
 	# today's formatted date
 	todayis="$(date +"%Y-%m-%d")"
+	var="${todayis}"
 
 	# exit if today's comic is already download
 	if [ -e "${downloadfolder}/${todayis}".* ];then
@@ -176,6 +177,7 @@ today()
 
 rm_date_list()
 {
+	datelist="${DIR}/date.list"
 	if [ -e "${datelist}" ];then
 	# clean up the temporary date file
 	rm -f "${datelist}"
