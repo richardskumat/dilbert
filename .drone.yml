@@ -1,0 +1,15 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: shellcheck
+  image: qwe1/shellcheck:sid
+  commands:
+  - shellcheck -e SC2144 -Cauto -s bash dilbert.sh
+- name: download test
+  image: debian:buster-slim
+  commands:
+  - bash -x docker/debian_pkg_req
+  - bash -x dilbert.sh -t
