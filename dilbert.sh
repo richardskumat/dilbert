@@ -94,13 +94,7 @@ case "${imgtype}" in
 esac
 
 if [ -d "${downloadfolder}/${filename}" ];then
-echo
-'
-The temporary downloaded file from assets.universal.com
-does not exist.
-
-Exiting.
-'
+echo "The temporary downloaded file from assets.universal.com does not exist. Exiting."
 exit
 fi
 
