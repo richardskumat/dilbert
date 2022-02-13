@@ -49,7 +49,7 @@ Debian.
 Example command:
 
 ```bash
-docker run --name dilbert -e PUID=6969 -e GUID=6969 qwe1/dilbert -t
+docker run --name dilbert --rm -e PUID=6969 -e GUID=6969 qwe1/dilbert -t
 ```
 
 ```bash

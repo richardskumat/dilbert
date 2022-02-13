@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x -eu -o pipefail
 PUID=${PUID:-1000}
 GUID=${GUID:-1000}
 usermod -u ${PUID} user
