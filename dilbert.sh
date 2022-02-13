@@ -12,7 +12,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 url="https://dilbert.com/strip/"
 ref="https://dilbert.com"
 
-ua='Mozilla/5.0 (Windows NT 10.0; WOW64; rv:89.0) Gecko/20100101 Firefox/89.0'
+ua='Mozilla/5.0 (Windows NT 10.0; WOW64; rv:91.0) Gecko/20100101 Firefox/91.0'
 
 downloadfolder="$HOME/Pictures/dilbert"
 
