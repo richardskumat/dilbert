@@ -1,7 +1,5 @@
 # Dilbert.com
 
-
-
 ## Default
 
 The following script should download all comics from Dilbert.com as of 2019-08-15 as long as the site doesn't change its looks and code structure a lot.
@@ -36,6 +34,13 @@ This uses an awful mess of piping to download images from dilbert.com and conver
 
 
 This will likely break if dilbert.com site layout changes.
+
+## Known issue
+
+date-generator.py errors out on last day on every month.
+
+Need to rethink the whole repo how to workaround date generation for bash to work
+or just rewrite the script in python anyway.
 
 ## Running this with Cron
 
