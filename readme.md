@@ -2,13 +2,11 @@
 
 ## Default
 
-The following script should download all comics from Dilbert.com as of 2019-08-15 as long as the site doesn't change its looks and code structure a lot.
+The following script should download all comics from Dilbert.com as of 2022-08-01 as long as the site doesn't change its looks and code structure a lot.
 
 Recommended to use in tmux or some other long running terminal windows(eg on a remote device).
 
-There's a sleep 6 command in there between downloading two comics to prevent hammering Dilbert.com for comics.
-
-Also I've had issues where after a certain amount of downloads, dilbert.com would start throwing up SSL errors.
+There's a sleep 6 command in there at the of the download() to prevent hammering Dilbert.com for comics.
 
 Usage:
 
@@ -16,7 +14,7 @@ Usage:
 bash -x dilbert -a
 ```
 
-Then after all 10000+ images are downloaded, you can run a daily scrape:
+Then after all 12000+ images are downloaded, you can run a daily scrape:
 
 ```
 bash -x dilbert -t
