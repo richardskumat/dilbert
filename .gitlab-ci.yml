@@ -12,12 +12,16 @@ variables:
 shellcheck:
   stage: shellcheck
   image: qwe1/shellcheck:sid
+  only:
+    - master
   script:
     - shellcheck -e SC2144 -Cauto -s bash dilbert.sh
 
 test_download_debian:
   stage: test
   image: debian:buster-slim
+  only:
+    - master
   script:
     # reqs
     - bash -x docker/debian_pkg_req
@@ -26,6 +30,8 @@ test_download_debian:
 docker-build:
   stage: docker-build
   image: docker:stable
+  only:
+    - master
   services:
     - docker:dind
   script:
