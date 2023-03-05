@@ -152,9 +152,10 @@ today()
 {
 	# today's formatted date
 	todayis="$(date +"%Y-%m-%d")"
+	california_date="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
 	var="${todayis}"
 
-	# exit if today's comic is already download
+	# exit if today's comic is already downloaded
 	if [ -e "${downloadfolder}/${todayis}".* ];then
 	printf "Today\\'s comic has already been downloaded.\\nExiting.\\n"
 	exit
