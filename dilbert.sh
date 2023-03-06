@@ -42,7 +42,7 @@ download()
 {
 # if download() is not called from main, but from today()
 if [ -z "${var}" ];then
-var="$(date +"%Y-%m-%d")"
+var="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
 fi
 
 # previous curl command resulted in the actual image URL from the external host
