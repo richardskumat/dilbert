@@ -13,6 +13,7 @@ url="https://dilbert.com/strip/"
 ref="https://dilbert.com"
 
 ua='Mozilla/5.0 (Windows NT 10.0; WOW64; rv:102.0) Gecko/20100101 Firefox/102.0'
+la_date="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
 
 downloadfolder="$HOME/Pictures/dilbert"
 
@@ -42,7 +43,7 @@ download()
 {
 # if download() is not called from main, but from today()
 if [ -z "${var}" ];then
-var="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
+var="${la_date}"
 fi
 
 # previous curl command resulted in the actual image URL from the external host
@@ -151,21 +152,19 @@ rm_date_list
 today()
 {
 	# today's formatted date
-	# todayis="$(date +"%Y-%m-%d")"
-	# use US/LA timezone to determine ${todayis}
+	# use US/LA timezone to determine old var $todayis
 	# as the comic seem to appear at midnight LA time
-	todayis="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
-	var="${todayis}"
+	var="${la_date}"
 
 	# exit if today's comic is already downloaded
-	if [ -e "${downloadfolder}/${todayis}".* ];then
+	if [ -e "${downloadfolder}/${la_date}".* ];then
 	printf "Today\\'s comic has already been downloaded.\\nExiting.\\n"
 	exit
 	fi
 
 	# if wrapper to see today's comic doesn't exist
 	# then download it
-	if [ ! -e "${downloadfolder}/${todayis}".* ];then
+	if [ ! -e "${downloadfolder}/${la_date}".* ];then
 	download
 	fi
 
