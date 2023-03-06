@@ -151,8 +151,10 @@ rm_date_list
 today()
 {
 	# today's formatted date
-	todayis="$(date +"%Y-%m-%d")"
-	california_date="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
+	# todayis="$(date +"%Y-%m-%d")"
+	# use US/LA timezone to determine ${todayis}
+	# as the comic seem to appear at midnight LA time
+	todayis="$(TZ='America/Los_Angeles' date +"%Y-%m-%d")"
 	var="${todayis}"
 
 	# exit if today's comic is already downloaded
