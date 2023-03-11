@@ -49,7 +49,7 @@ fi
 # previous curl command resulted in the actual image URL from the external host
 # and some promotion material that confused the rest of this script
 # I'll have to do better than review the results of this line every once in a while
-imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | sed '/^\s*$/d' | grep -v 'packs\|images\|promotion')"
+imglink="$(curl -sS -L -A "${ua}" --referer ${ref} "${url}${var}" | grep 'img-responsive\|img-comic' | awk -F'"' '{print $10}' | grep -v -e 'packs\|images\|promotion' -e '^$')"
 
 if [ -z "${imglink}" ];then
 echo "
