@@ -48,10 +48,7 @@ push_to_dockerhub:
    - master
  script:
    - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
-   - docker build -f docker/Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA -t $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+   - docker build -f docker/Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA  .
    - docker images
    - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest
    - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA
-   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
-   - docker push $CI_REGISTRY_IMAGE:latest
-   - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
