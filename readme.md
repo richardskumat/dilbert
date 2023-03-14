@@ -1,5 +1,9 @@
 # Dilbert.com
 
+2023-03-13
+
+Dilbert.com now redirects to https://linktr.ee/scottadams, making the code in this
+repo useless.
 ## Default
 
 The following script should download all comics from Dilbert.com as of 2022-08-01 as long as the site doesn't change its looks and code structure a lot.
