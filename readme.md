@@ -4,6 +4,9 @@
 
 Dilbert.com now redirects to https://linktr.ee/scottadams, making the code in this
 repo useless.
+
+Some or maybe all of the comics from the past can probably found from archive.org,
+eg https://web.archive.org/web/20230000000000*/https://dilbert.com/ .
 ## Default
 
 The following script should download all comics from Dilbert.com as of 2022-08-01 as long as the site doesn't change its looks and code structure a lot.
