@@ -7,6 +7,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #DIR="$(pwd -P)"
 #DIR="$(pwd)"
 
+echo '
+Hi. Dilbert.com currently redirects to https://linktr.ee/scottadams,
+which means this script is useless.
+Goodbye!
+Exiting.
+'
+exit 0
+
 #2018-11-26
 # update to https
 url="https://dilbert.com/strip/"
